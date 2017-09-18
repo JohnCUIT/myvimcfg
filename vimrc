@@ -48,7 +48,7 @@ set encoding=utf-8
 set termencoding=utf-8
 set fileencodings=utf-8,gbk,gb18030,gb2312,cp936,ucs-bom,latin1
 set fileformats=dos,unix
-"set mouse=a
+set mouse=a
 set pastetoggle=<F11>
 syntax enable
 syntax on
@@ -62,16 +62,16 @@ set cursorline
 colorscheme darkburn
 
 " ======= 自动打开上次编辑过的文件 ======= "
-au VimLeave * mks! ~/.Session.vim
-if expand("%")==""
-	if(expand("~/.Session.vim")==findfile("~/.Session.vim"))
-		silent :source ~/.Session.vim
-	endif
-endif
+"au VimLeave * mks! ~/.Session.vim
+"if expand("%")==""
+"	if(expand("~/.Session.vim")==findfile("~/.Session.vim"))
+"		silent :source ~/.Session.vim
+"	endif
+"endif
 
 " ======= 恢复上次文件打开位置 ======= "  
-set viminfo='10,\"100,:20,%,n~/.viminfo
-au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm'\"")|else|exe "norm $"|endif|endif
+"set viminfo='10,\"100,:20,%,n~/.viminfo
+"au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm'\"")|else|exe "norm $"|endif|endif
 
 " ======= 设置当文件被外部改变的时侯自动读入文件 ======= "  
 if exists("&autoread")
@@ -170,16 +170,24 @@ let g:airline_symbols.branch = '⭠'
 let g:airline_symbols.readonly = '⭤'
 let g:airline_symbols.linenr = '⭡'
 
+"=====Sessionman config================
+set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize
+nnoremap <leader>sl :SessionList<CR>
+nnoremap <leader>ss :SessionSave<CR>
+nnoremap <leader>sc :SessionClose<CR>
+"au VimLeave * mks! ~/.Session.vim
+
+
 " =====ctrl-p configuration=============
 let g:ctrlp_map = '<leader>p'
 "<leader>f搜索MRU（Most Recently Used）文件
-nmap <leader>f :CtrlPMRUFiles<CR>
+nnoremap <leader>f :CtrlPMRUFiles<CR>
 "<leader>b显示缓冲区文件，并可通过序号进行跳转
-nmap <Leader>b :CtrlPBuffer<CR>
+nnoremap <Leader>b :CtrlPBuffer<CR>
 "设置搜索时忽略的文件
 let g:ctrlp_custom_ignore = {
     \ 'dir':  '\v[\/]\.(git|hg|svn|rvm)$',
-    \ 'file': '\v\.(exe|so|dll|zip|tar|tar.gz|pyc|png|jpg|o|d)$',
+    \ 'file': '\v\.(exe|so|dll|zip|tar|tar.gz|pyc|png|jpg|o|d|bak|[0-9])$',
     \ }
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_match_window_bottom = 1
@@ -196,6 +204,26 @@ let g:ctrlp_regexp = 0
 "自定义搜索列表的提示符
 let g:ctrlp_line_prefix = '♪ '
 
+
+" =====undotree configuration=============
+let g:undotree_SetFocusWhenToggle = 1
+let g:undotree_WindowLayout = 2
+nnoremap <leader>ud	:UndotreeToggle<CR>
+set undodir='~/.vim/undodir'
+set undofile
+set undolevels=1000 "maximum number of changes that can be undone
+set undoreload=10000 "maximum number lines to save for undo on a buffer reload
+
+" =====syntastic configuration=============
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 2
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
 autocmd BufNewFile *.[ch],*.hpp,*.cpp exec ":call SetTitle()" 
 autocmd BufNewFile * normal G
 "autocmd BufWritePost *.[ch],*.hpp,*.cpp exec ":call UpdateCscope()"
@@ -206,7 +234,7 @@ func SetComment()
     call append(line("."),   "*   Copyright (C) ".strftime("%Y")." All rights reserved.")
     call append(line(".")+1, "*   ") 
     call append(line(".")+2, "*   File Name:	".expand("%:t")) 
-    call append(line(".")+3, "*   Creater:		Johnny He")
+    call append(line(".")+3, "*   Creater:		Shengjiang He")
     call append(line(".")+4, "*   Create Date:	".strftime("%Y-%m-%d")) 
     call append(line(".")+5, "*   Detail:		") 
     call append(line(".")+6, "*")
