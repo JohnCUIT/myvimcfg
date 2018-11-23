@@ -16,13 +16,43 @@ Bundle 'gmarik/vundle'
 Bundle 'scrooloose/nerdtree'
 Bundle 'bling/vim-airline'
 
-" vim-scripts repos （vim-scripts仓库里的，按下面格式填写）
-"Bundle 'taglist.vim'
-Bundle 'Tagbar'
+"YouCompleteMe
+Bundle 'Valloric/YouCompleteMe'
 
-" non github repos （非上面两种情况的，按下面格式填写）
+"easymotion
+Bundle 'easymotion/vim-easymotion'
+
+Bundle 'scrooloose/nerdcommenter'
+Bundle 'godlygeek/tabular'
+Bundle 'python-mode/python-mode'
+Bundle 'SirVer/ultisnips'
+Bundle 'kien/ctrlp.vim'
+Bundle 'vim-syntastic/syntastic'
+
+" vim-scripts repos （vim-scripts仓库里的，按下面格式填写）
+Bundle 'taglist.vim'
+"Bundle 'Tagbar'
+
+"sessionman
+Bundle 'sessionman.vim'
+
+"gundo
+Bundle 'sjl/gundo.vim'
+
+"undotree
+Bundle 'mbbill/undotree'
+
+"svnj
+Bundle 'juneedahamed/svnj.vim'
+
+
+
+"non github repos （非上面两种情况的，按下面格式填写）
 "Bundle 'git://git.wincent.com/command-t.git'
 " ...
+
+"Bundle 'nathanaelkane/vim-indent-guides'
+Bundle 'skywind3000/asyncrun.vim'
 
 filetype plugin indent on " required! /** vimrc文件配置结束 **/
 
@@ -48,7 +78,7 @@ set encoding=utf-8
 set termencoding=utf-8
 set fileencodings=utf-8,gbk,gb18030,gb2312,cp936,ucs-bom,latin1
 set fileformats=dos,unix
-set mouse=a
+"set mouse=a
 set pastetoggle=<F11>
 syntax enable
 syntax on
@@ -84,14 +114,22 @@ nnoremap <leader>]  :vertical resize +10<CR>
 nnoremap <leader>[  :vertical resize -10<CR>
 nnoremap <leader>;  :botright cwindow<CR>
 nnoremap <leader>pr	o<ESC>0cwprintf("====DEBUG[Johnny][%s][%s][%d]====\n", __FILE__,  __func__, __LINE__);<ESC>
-nnoremap <leader>5	:cd Baseline/APPS<CR> :make<CR> :cd-<CR>
+nnoremap <leader>5	:make<CR>
+nnoremap <leader>4	:w<CR>:!time python <C-R>%<CR>
 nnoremap <leader>`	:call UpdateCscope()<CR>
+nnoremap <leader>ev	:vsplit $HOME/.vimrc<CR>
+nnoremap <leader>se	:source $HOME/.vimrc<CR>
+nnoremap <leader>py	:vsplit $HOME/.vim/plugin/Johnny.vim<CR>
 "nnoremap <leader>f	:vimgrep /<C-R>=expand("<cword>")/ **/*.c<CR>
 
 nnoremap <C-H>	<C-W>h
 nnoremap <C-J>	<C-W>j
 nnoremap <C-K>	<C-W>k
 nnoremap <C-L>	<C-W>l
+nnoremap ;	:
+nnoremap <Space>    $
+vnoremap <Space>    $
+inoremap jk	<ESC>
 
 "ctags config
 "noremap <C-F12> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
@@ -142,7 +180,7 @@ let NERDTreeChDirMode=2 "选中root即设置为当前目录
 let NERDTreeQuitOnOpen=1
 let NERDTreeShowBookmarks=1 "显示书签
 let NERDTreeMinimalUI=1 "不显示帮助面板
-let NERDTreeDirArrows=0 "目录箭头 1 显示箭头 0传统+-|号
+let NERDTreeDirArrows=1 "目录箭头 1 显示箭头 0传统+-|号
 let NERDTreeWinPos="left"
 let NERDTreeWinSize=25
 
@@ -151,7 +189,7 @@ nnoremap <C-N> :bn<CR>
 nnoremap <C-P> :bp<CR>
 nnoremap <leader>m :b#<CR>
 "set laststatus=2
-set t_Co=256
+"set t_Co=256
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_nr_show = 1
 let g:airline#extensions#whitespace#enabled=0
@@ -162,21 +200,13 @@ if !exists('g:airline_symbols')
 	let g:airline_symbols = {}
 endif
 " old vim-powerline symbols
-let g:airline_left_sep = '⮀'
-let g:airline_left_alt_sep = '⮁'
-let g:airline_right_sep = '⮂'
-let g:airline_right_alt_sep = '⮃'
-let g:airline_symbols.branch = '⭠'
-let g:airline_symbols.readonly = '⭤'
-let g:airline_symbols.linenr = '⭡'
-
-"=====Sessionman config================
-set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize
-nnoremap <leader>sl :SessionList<CR>
-nnoremap <leader>ss :SessionSave<CR>
-nnoremap <leader>sc :SessionClose<CR>
-"au VimLeave * mks! ~/.Session.vim
-
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline_symbols.branch = ''
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.linenr = ''
 
 " =====ctrl-p configuration=============
 let g:ctrlp_map = '<leader>p'
@@ -205,6 +235,18 @@ let g:ctrlp_regexp = 0
 let g:ctrlp_line_prefix = '♪ '
 
 
+"Sessionman config
+set sessionoptions=blank,buffers,curdir,folds,tabpages,winsize
+nnoremap <leader>sl :SessionList<CR>
+nnoremap <leader>ss :SessionSave<CR>
+nnoremap <leader>sc :SessionClose<CR>
+
+"YouCompleteMe
+let g:ycm_global_ycm_extra_conf='~/.vim/.ycm_extra_conf.py'
+nnoremap <leader>gl :YcmCompleter GoToDeclaration<CR>
+nnoremap <leader>gf :YcmCompleter GoToDefinition<CR>
+nnoremap <leader>gg :YcmCompleter GoToDefinitionElseDeclaration<CR>
+
 " =====undotree configuration=============
 let g:undotree_SetFocusWhenToggle = 1
 let g:undotree_WindowLayout = 2
@@ -214,27 +256,20 @@ set undofile
 set undolevels=1000 "maximum number of changes that can be undone
 set undoreload=10000 "maximum number lines to save for undo on a buffer reload
 
-" =====syntastic configuration=============
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 2
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-
 autocmd BufNewFile *.[ch],*.hpp,*.cpp exec ":call SetTitle()" 
 autocmd BufNewFile * normal G
 "autocmd BufWritePost *.[ch],*.hpp,*.cpp exec ":call UpdateCscope()"
 
+"pymode
+"let g:pymode_python = 'python'
+
 "加入注释
-func SetComment()
+func! SetComment()
     call setline(1,"/*===============================================================") 
     call append(line("."),   "*   Copyright (C) ".strftime("%Y")." All rights reserved.")
     call append(line(".")+1, "*   ") 
     call append(line(".")+2, "*   File Name:	".expand("%:t")) 
-    call append(line(".")+3, "*   Creater:		Shengjiang He")
+    call append(line(".")+3, "*   Creater:		Johnny He")
     call append(line(".")+4, "*   Create Date:	".strftime("%Y-%m-%d")) 
     call append(line(".")+5, "*   Detail:		") 
     call append(line(".")+6, "*")
@@ -244,7 +279,7 @@ func SetComment()
 endfunc
 	
 "定义函数SetTitle，自动插入文件头 
-func SetTitle()
+func! SetTitle()
 	call SetComment()
 	if expand("%:e") == 'hpp' || expand("%:e") == 'h' 
 		call append(line(".")+10, "#ifndef __".toupper(expand("%:t:r"))."_H_") 
@@ -261,7 +296,7 @@ func SetTitle()
 endfunc
 
 "定义函数UpdateCscope,自动更新cscope数据库
-func UpdateCscope()
+func! UpdateCscope()
 "	execute "normal! :cd /\<cr>"
 	execute "normal! :!find `pwd` -name '*.[ch]' -o -name '*.cpp' > `pwd`/cscope.files\<cr>"
 	execute "normal! :!cscope -bq\<cr>"

@@ -1,0 +1,11 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =9
+let g:netrw_dirhist_1='/home/johnny/win_apps'
+let g:netrw_dirhist_2='/home/johnny'
+let g:netrw_dirhist_3='/home'
+let g:netrw_dirhist_4='/home/johnny/mycode/saveTree'
+let g:netrw_dirhist_5='/home/johnny/mycode'
+let g:netrw_dirhist_6='/home/johnny/mycode/mutithread'
+let g:netrw_dirhist_7='/home/johnny/studySpace/mycode/saveTree'
+let g:netrw_dirhist_8='/home/johnny/.vim'
+let g:netrw_dirhist_9='/usr/local/share/bochs'
