@@ -71,7 +71,6 @@ nnoremap <leader>-  :resize -5<CR>
 nnoremap <leader>]  :vertical resize +10<CR>
 nnoremap <leader>[  :vertical resize -10<CR>
 nnoremap <leader>;  :botright cwindow<CR>
-nnoremap <leader>en  :e ++enc=gbk<CR>
 nnoremap <F12>		:call SwitchBgStyle()<CR>
 
 "代码工程管理类快捷键
